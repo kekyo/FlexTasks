@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers", "System.Threading.Tasks.Helpers\System.Threading.Tasks.Helpers.csproj", "{02FE8F8A-C663-4BA8-8264-7AAE94DEFB5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FF5743CE-B7BB-4A74-A372-8B7D5D2376C9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		System.Threading.Tasks.Helpers.sln.licenseheader = System.Threading.Tasks.Helpers.sln.licenseheader
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers.Tests.netcoreapp1.0", "System.Threading.Tasks.Helpers.Tests.netcoreapp1.0\System.Threading.Tasks.Helpers.Tests.netcoreapp1.0.csproj", "{63047BA3-5143-4FFB-A9EB-F2E06F08A38F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers.Tests.netcoreapp2.0", "System.Threading.Tasks.Helpers.Tests.netcoreapp2.0\System.Threading.Tasks.Helpers.Tests.netcoreapp2.0.csproj", "{7B6CCABE-D288-4196-BF16-CE8099F13035}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers.Tests.net45", "System.Threading.Tasks.Helpers.Tests.net45\System.Threading.Tasks.Helpers.Tests.net45.csproj", "{543E9D1D-4DAC-4316-897F-E25D20CBF78C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers.Tests.net40", "System.Threading.Tasks.Helpers.Tests.net40\System.Threading.Tasks.Helpers.Tests.net40.csproj", "{45013F4E-AF0B-4809-90D8-222646330F74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02FE8F8A-C663-4BA8-8264-7AAE94DEFB5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02FE8F8A-C663-4BA8-8264-7AAE94DEFB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02FE8F8A-C663-4BA8-8264-7AAE94DEFB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02FE8F8A-C663-4BA8-8264-7AAE94DEFB5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63047BA3-5143-4FFB-A9EB-F2E06F08A38F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63047BA3-5143-4FFB-A9EB-F2E06F08A38F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63047BA3-5143-4FFB-A9EB-F2E06F08A38F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63047BA3-5143-4FFB-A9EB-F2E06F08A38F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B6CCABE-D288-4196-BF16-CE8099F13035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B6CCABE-D288-4196-BF16-CE8099F13035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B6CCABE-D288-4196-BF16-CE8099F13035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B6CCABE-D288-4196-BF16-CE8099F13035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{543E9D1D-4DAC-4316-897F-E25D20CBF78C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{543E9D1D-4DAC-4316-897F-E25D20CBF78C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{543E9D1D-4DAC-4316-897F-E25D20CBF78C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{543E9D1D-4DAC-4316-897F-E25D20CBF78C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45013F4E-AF0B-4809-90D8-222646330F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45013F4E-AF0B-4809-90D8-222646330F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45013F4E-AF0B-4809-90D8-222646330F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45013F4E-AF0B-4809-90D8-222646330F74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2247732F-CD1A-430E-9EFC-F8A6563CDB92}
+	EndGlobalSection
+EndGlobal

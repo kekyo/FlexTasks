@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <TargetFrameworks>net40;net45;netstandard1.0;netstandard2.0</TargetFrameworks>
+      <RootNamespace>System.Threading.Tasks</RootNamespace>
+
+      <PackageId>FlexTasks.Core</PackageId>
+      <AssemblyTitle>.NET Task / ValueTask helpers for compositioning frustration free.</AssemblyTitle>
+      <Product>System.Threading.Tasks.Helpers</Product>
+      <Trademark>System.Threading.Tasks.Helpers</Trademark>
+      <Copyright>Copyright (c) 2019 Kouji Matsui</Copyright>
+      <Description>.NET Task / ValueTask helpers for compositioning frustration free.</Description>
+      <Company>Kouji Matsui (@kozy_kekyo)</Company>
+      <Authors>Kouji Matsui (@kozy_kekyo)</Authors>
+      <RepositoryType>git</RepositoryType>
+      <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+      <PackageProjectUrl>https://github.com/kekyo/System.Threading.Tasks.Helpers.git</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/kekyo/System.Threading.Tasks.Helpers.git</RepositoryUrl>
+      <PackageTags>dotnet;csharp;async;await;interoperability;task;valuetask;linq;threading;logical;helper;monadic;primitives;operators;abstract</PackageTags>
+      <DebugType>pdbonly</DebugType>
+      <DebugSymbols>true</DebugSymbols>
+      <Platforms>AnyCPU</Platforms>
+      <LangVersion>7.3</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+      <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.4.0" />
+    </ItemGroup>
+
+</Project>

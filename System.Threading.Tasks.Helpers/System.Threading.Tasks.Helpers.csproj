@@ -7,7 +7,7 @@
       <DebugType>pdbonly</DebugType>
       <DebugSymbols>true</DebugSymbols>
       <Platforms>AnyCPU</Platforms>
-      <LangVersion>7.3</LangVersion>
+      <LangVersion>8.0</LangVersion>
 
       <PackageId>FlexTasks.Core</PackageId>
       <AssemblyTitle>.NET Task / ValueTask helpers for compositioning frustration free.</AssemblyTitle>

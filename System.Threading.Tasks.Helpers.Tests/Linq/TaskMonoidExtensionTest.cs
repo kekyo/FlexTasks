@@ -181,7 +181,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.All(v => v == 111);
 
@@ -193,7 +193,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.All(v => v == 200);
 
@@ -205,7 +205,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.All(v => (v % 100) == 0);
 
@@ -217,7 +217,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.All(async v =>
             {
@@ -233,7 +233,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.All(async v =>
             {
@@ -249,7 +249,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.All(async v =>
             {
@@ -267,7 +267,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new int[0];
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any(v => v == 100);
 
@@ -279,7 +279,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any(v => v == 111);
 
@@ -291,7 +291,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any(v => v == 200);
 
@@ -303,7 +303,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new int[0];
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any(async v =>
             {
@@ -319,7 +319,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any(async v =>
             {
@@ -335,7 +335,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any(async v =>
             {
@@ -351,7 +351,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new int[0];
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any();
 
@@ -363,7 +363,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await rst.Any();
 
@@ -399,7 +399,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await WhenAll(rst.Append(400));
 
@@ -411,7 +411,7 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 100, 200, 300 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             var r = await WhenAll(rst.Append(FromResult(400)));
 
@@ -431,11 +431,11 @@ namespace System.Threading.Tasks.Linq
         //////////////////////////////////////////////////////////////////
 
         [Test]
-        public async Task ToEnumerableFromArray()
+        public async Task AsEnumerableFromArray()
         {
             var numbers = new[] { 123, 456, 789 };
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             foreach (var entry in rst.Zip(numbers, (tr, e) => Tuple.Create(tr, e)))
             {
@@ -445,11 +445,11 @@ namespace System.Threading.Tasks.Linq
         }
 
         [Test]
-        public async Task ToEnumerableFromIEnumerable()
+        public async Task AsEnumerableFromIEnumerable()
         {
             var numbers = new[] { 123, 456, 789 }.AsEnumerable();
             var rst = FromResult(numbers).
-                ToEnumerable();
+                AsEnumerable();
 
             foreach (var entry in rst.Zip(numbers, (tr, e) => Tuple.Create(tr, e)))
             {
@@ -460,12 +460,45 @@ namespace System.Threading.Tasks.Linq
 
         //////////////////////////////////////////////////////////////////
 
+#if NET461 || NETCOREAPP2_0 || NETCOREAPP3_0
         [Test]
-        public async Task ToTaskFromArray()
+        public async Task AsAsyncEnumerableFromArray()
+        {
+            var numbers = new[] { 123, 456, 789 };
+            var rst = FromResult(numbers).
+                AsAsyncEnumerable();
+
+            foreach (var entry in rst.Zip(numbers, (tr, e) => Tuple.Create(tr, e)))
+            {
+                var r = await entry.Item1;
+                Assert.AreEqual(entry.Item2, r);
+            }
+        }
+
+        [Test]
+        public async Task AsAsyncEnumerableFromIEnumerable()
+        {
+            var numbers = new[] { 123, 456, 789 };
+            var rst = FromResult(numbers).
+                Select(v => Task.FromResult(v)).
+                AsAsyncEnumerable();
+
+            await foreach (var entry in numbers)
+            {
+                var r = await entry.Item1;
+                Assert.AreEqual(entry.Item2, r);
+            }
+        }
+#endif
+
+        //////////////////////////////////////////////////////////////////
+
+        [Test]
+        public async Task AsTaskFromArray()
         {
             var numbers = new[] { FromResult(123), FromResult(456), FromResult(789) };
             var trs = numbers.
-                ToTask();
+                AsTask();
 
             foreach (var entry in (await trs).Zip(numbers, (r, te) => Tuple.Create(r, te)))
             {
@@ -475,11 +508,11 @@ namespace System.Threading.Tasks.Linq
         }
 
         [Test]
-        public async Task ToTaskFromIEnumerable()
+        public async Task AsTaskFromIEnumerable()
         {
             var numbers = new[] { FromResult(123), FromResult(456), FromResult(789) }.AsEnumerable();
             var trs = numbers.
-                ToTask();
+                AsTask();
 
             foreach (var entry in (await trs).Zip(numbers, (r, te) => Tuple.Create(r, te)))
             {

@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Help
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers.Tests.netcoreapp3.0", "System.Threading.Tasks.Helpers.Tests.netcoreapp3.0\System.Threading.Tasks.Helpers.Tests.netcoreapp3.0.csproj", "{F7E79948-EB9E-4BAE-A96C-E7901990B2F9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Threading.Tasks.Helpers.Tests.net461", "System.Threading.Tasks.Helpers.Tests.net461\System.Threading.Tasks.Helpers.Tests.net461.csproj", "{453DB312-9858-4FF6-8F70-98869E534095}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{F7E79948-EB9E-4BAE-A96C-E7901990B2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7E79948-EB9E-4BAE-A96C-E7901990B2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7E79948-EB9E-4BAE-A96C-E7901990B2F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453DB312-9858-4FF6-8F70-98869E534095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453DB312-9858-4FF6-8F70-98869E534095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453DB312-9858-4FF6-8F70-98869E534095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453DB312-9858-4FF6-8F70-98869E534095}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

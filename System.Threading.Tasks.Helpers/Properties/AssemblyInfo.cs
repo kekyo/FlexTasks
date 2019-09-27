@@ -23,6 +23,10 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("System.Threading.Tasks.Helpers.Tests.net45")]
 #endif
 
+#if NET461
+[assembly: InternalsVisibleTo("System.Threading.Tasks.Helpers.Tests.net461")]
+#endif
+
 #if NETSTANDARD1_0
 [assembly: InternalsVisibleTo("System.Threading.Tasks.Helpers.Tests.netcoreapp1.0")]
 #endif

@@ -212,14 +212,14 @@ namespace System.Threading.Tasks.Linq
 
         //////////////////////////////////////////////////////////////////
 
-        public static IEnumerable<Task<T>> ToEnumerable<T>(this Task<T[]> task)
+        public static IEnumerable<Task<T>> AsEnumerable<T>(this Task<T[]> task)
         {
             var et = new EnumerableTask<T>();
             task.ContinueWith(et.tcs, arr => arr.AsEnumerable());
             return et;
         }
 
-        public static IEnumerable<Task<T>> ToEnumerable<T>(this Task<IEnumerable<T>> task)
+        public static IEnumerable<Task<T>> AsEnumerable<T>(this Task<IEnumerable<T>> task)
         {
             var et = new EnumerableTask<T>();
             task.ContinueWith(et.tcs);
@@ -228,7 +228,26 @@ namespace System.Threading.Tasks.Linq
 
         //////////////////////////////////////////////////////////////////
 
-        public static async Task<IEnumerable<T>> ToTask<T>(this IEnumerable<Task<T>> tasks) =>
+#if NET461 || NETSTANDARD2_0 || NETSTANDARD2_1
+        public static async IAsyncEnumerable<T> AsAsyncEnumerable<T>(this Task<T[]> task)
+        {
+            foreach (var v in await task.ConfigureAwait(false))
+            {
+                yield return v;
+            }
+        }
+
+        public static async IAsyncEnumerable<T> AsAsyncEnumerable<T>(this Task<IEnumerable<T>> task)
+        {
+            foreach (var v in await task.ConfigureAwait(false))
+            {
+                yield return v;
+            }
+        }
+#endif
+        //////////////////////////////////////////////////////////////////
+
+        public static async Task<IEnumerable<T>> AsTask<T>(this IEnumerable<Task<T>> tasks) =>
             await Utilities.WhenAll(tasks);
 
         //////////////////////////////////////////////////////////////////

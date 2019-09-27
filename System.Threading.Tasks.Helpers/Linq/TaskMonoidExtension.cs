@@ -91,6 +91,88 @@ namespace System.Threading.Tasks.Linq
 
         //////////////////////////////////////////////////////////////////
 
+        public static async Task<bool> All<T>(this IEnumerable<Task<T>> tasks, Func<T, bool> predicate)
+        {
+            foreach (var t in tasks)
+            {
+                var v = await t.ConfigureAwait(false);
+                if (!predicate(v))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static async Task<bool> All<T>(this IEnumerable<Task<T>> tasks, Func<T, Task<bool>> predicate)
+        {
+            foreach (var t in tasks)
+            {
+                var v = await t.ConfigureAwait(false);
+                if (!await predicate(v).ConfigureAwait(false))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        //////////////////////////////////////////////////////////////////
+
+        public static async Task<bool> Any<T>(this IEnumerable<Task<T>> tasks, Func<T, bool> predicate)
+        {
+            foreach (var t in tasks)
+            {
+                var v = await t.ConfigureAwait(false);
+                if (predicate(v))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static async Task<bool> Any<T>(this IEnumerable<Task<T>> tasks, Func<T, Task<bool>> predicate)
+        {
+            foreach (var t in tasks)
+            {
+                var v = await t.ConfigureAwait(false);
+                if (await predicate(v).ConfigureAwait(false))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static async Task<bool> Any<T>(this IEnumerable<Task<T>> tasks)
+        {
+            if (tasks.FirstOrDefault() is Task<T> t)
+            {
+                await t.ConfigureAwait(false);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> Any(this IEnumerable<Task> tasks)
+        {
+            if (tasks.FirstOrDefault() is Task t)
+            {
+                await t.ConfigureAwait(false);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////
+
         public static IEnumerable<Task<T>> Cast<T>(this IEnumerable<Task> tasks) =>
             tasks.Select(task => task.Cast<T>());
 

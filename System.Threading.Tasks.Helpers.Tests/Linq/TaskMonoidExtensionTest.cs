@@ -14,6 +14,7 @@
 // limitations under the License.
 
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace System.Threading.Tasks.Linq
@@ -171,6 +172,224 @@ namespace System.Threading.Tasks.Linq
                 });
 
             Assert.AreEqual(100 + 123 + 456 + 789 + 1000.0, r);
+        }
+
+        //////////////////////////////////////////////////////////////////
+
+        [Test]
+        public async Task AllNoMatch()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.All(v => v == 111);
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AllPartial()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.All(v => v == 200);
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AllAll()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.All(v => (v % 100) == 0);
+
+            Assert.IsTrue(r);
+        }
+
+        [Test]
+        public async Task AllNoMatchByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.All(async v =>
+            {
+                await Delay(100);
+                return v == 111;
+            });
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AllPartialByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.All(async v =>
+            {
+                await Delay(100);
+                return v == 200;
+            });
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AllAllByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.All(async v =>
+            {
+                await Delay(100);
+                return (v % 100) == 0;
+            });
+
+            Assert.IsTrue(r);
+        }
+
+        //////////////////////////////////////////////////////////////////
+
+        [Test]
+        public async Task AnyPredicateNothing()
+        {
+            var numbers = new int[0];
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any(v => v == 100);
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AnyPredicateNoMatch()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any(v => v == 111);
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AnyPredicatePartial()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any(v => v == 200);
+
+            Assert.IsTrue(r);
+        }
+
+        [Test]
+        public async Task AnyPredicateNothingByBind()
+        {
+            var numbers = new int[0];
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any(async v =>
+            {
+                await Delay(100);
+                return v == 100;
+            });
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AnyPredicateNoMatchByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any(async v =>
+            {
+                await Delay(100);
+                return v == 111;
+            });
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AnyPredicatePartialByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any(async v =>
+            {
+                await Delay(100);
+                return v == 200;
+            });
+
+            Assert.IsTrue(r);
+        }
+
+        [Test]
+        public async Task AnyTNothing()
+        {
+            var numbers = new int[0];
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any();
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AnyTAvailable()
+        {
+            var numbers = new[] { 100 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await rst.Any();
+
+            Assert.IsTrue(r);
+        }
+
+        [Test]
+        public async Task AnyNothing()
+        {
+            var rst = (IEnumerable<Task>)
+                new Task[0];
+
+            var r = await rst.Any();
+
+            Assert.IsFalse(r);
+        }
+
+        [Test]
+        public async Task AnyAvailable()
+        {
+            var rst = (IEnumerable<Task>)
+                new[] { (Task)FromResult(100) };
+
+            var r = await rst.Any();
+
+            Assert.IsTrue(r);
         }
 
         //////////////////////////////////////////////////////////////////

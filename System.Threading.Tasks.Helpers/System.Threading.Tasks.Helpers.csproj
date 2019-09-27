@@ -4,6 +4,11 @@
       <TargetFrameworks>net40;net45;netstandard1.0;netstandard2.0;netstandard2.1</TargetFrameworks>
       <RootNamespace>System.Threading.Tasks</RootNamespace>
 
+      <DebugType>pdbonly</DebugType>
+      <DebugSymbols>true</DebugSymbols>
+      <Platforms>AnyCPU</Platforms>
+      <LangVersion>7.3</LangVersion>
+
       <PackageId>FlexTasks.Core</PackageId>
       <AssemblyTitle>.NET Task / ValueTask helpers for compositioning frustration free.</AssemblyTitle>
       <Product>System.Threading.Tasks.Helpers</Product>
@@ -17,10 +22,6 @@
       <PackageProjectUrl>https://github.com/kekyo/System.Threading.Tasks.Helpers.git</PackageProjectUrl>
       <RepositoryUrl>https://github.com/kekyo/System.Threading.Tasks.Helpers.git</RepositoryUrl>
       <PackageTags>dotnet;csharp;async;await;interoperability;task;valuetask;linq;threading;logical;helper;monadic;primitives;operators;abstract</PackageTags>
-      <DebugType>pdbonly</DebugType>
-      <DebugSymbols>true</DebugSymbols>
-      <Platforms>AnyCPU</Platforms>
-      <LangVersion>7.3</LangVersion>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
@@ -45,6 +46,13 @@
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
       <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CenterCLR.RelaxVersioner" Version="1.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>

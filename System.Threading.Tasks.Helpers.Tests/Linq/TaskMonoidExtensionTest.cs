@@ -395,6 +395,42 @@ namespace System.Threading.Tasks.Linq
         //////////////////////////////////////////////////////////////////
 
         [Test]
+        public async Task AppendValue()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await WhenAll(rst.Append(400));
+
+            Assert.AreEqual(new[] { 100, 200, 300, 400 }, r);
+        }
+
+        [Test]
+        public async Task AppendByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+            var rst = FromResult(numbers).
+                ToEnumerable();
+
+            var r = await WhenAll(rst.Append(FromResult(400)));
+
+            Assert.AreEqual(new[] { 100, 200, 300, 400 }, r);
+        }
+
+        [Test]
+        public async Task AppendValueByBind()
+        {
+            var numbers = new[] { 100, 200, 300 };
+
+            var r = await WhenAll(numbers.Append(FromResult(400)));
+
+            Assert.AreEqual(new[] { 100, 200, 300, 400 }, r);
+        }
+
+        //////////////////////////////////////////////////////////////////
+
+        [Test]
         public async Task ToEnumerableFromArray()
         {
             var numbers = new[] { 123, 456, 789 };

@@ -173,6 +173,40 @@ namespace System.Threading.Tasks.Linq
 
         //////////////////////////////////////////////////////////////////
 
+        public static IEnumerable<Task<T>> Append<T>(this IEnumerable<Task<T>> tasks, T value)
+        {
+            foreach (var t in tasks)
+            {
+                yield return t;
+            }
+            yield return Utilities.FromResult(value);
+        }
+
+#if NETSTANDARD2_0 || NETSTANDARD2_1
+        public static IEnumerable<Task<T>> Append<T>(this IEnumerable<Task<T>> tasks, Task<T> task) =>
+            Enumerable.Append(tasks, task);
+#else
+        public static IEnumerable<Task<T>> Append<T>(this IEnumerable<Task<T>> tasks, Task<T> task)
+        {
+            foreach (var t in tasks)
+            {
+                yield return t;
+            }
+            yield return task;
+        }
+#endif
+
+        public static IEnumerable<Task<T>> Append<T>(this IEnumerable<T> enumerable, Task<T> task)
+        {
+            foreach (var v in enumerable)
+            {
+                yield return Utilities.FromResult(v);
+            }
+            yield return task;
+        }
+
+        //////////////////////////////////////////////////////////////////
+
         public static IEnumerable<Task<T>> Cast<T>(this IEnumerable<Task> tasks) =>
             tasks.Select(task => task.Cast<T>());
 

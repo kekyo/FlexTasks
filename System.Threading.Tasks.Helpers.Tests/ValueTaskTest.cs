@@ -25,14 +25,14 @@ namespace System.Threading.Tasks
 
 #if !NET40
     [TestFixture]
-    public sealed class ValueTaskTest
+    public sealed class ValueTaskExkTest
     {
         //////////////////////////////////////////////////////////////////
 
         [Test]
         public async Task CompletedTask()
         {
-            ValueTask<Unit> task = ValueTask.CompletedTask;
+            ValueTask<Unit> task = ValueTaskEx.CompletedTask;
 
             Assert.IsTrue(task.IsCompletedSuccessfully);
 
@@ -46,7 +46,7 @@ namespace System.Threading.Tasks
         [Test]
         public async Task FromResult()
         {
-            ValueTask<int> task = ValueTask.FromResult(123);
+            ValueTask<int> task = ValueTaskEx.FromResult(123);
 
             Assert.IsTrue(task.IsCompletedSuccessfully);
 
@@ -62,7 +62,7 @@ namespace System.Threading.Tasks
         {
             var begin = DateTime.Now;
 
-            await ValueTask.Delay(1000);
+            await ValueTaskEx.Delay(1000);
 
             var end = DateTime.Now;
 
@@ -74,7 +74,7 @@ namespace System.Threading.Tasks
         {
             var begin = DateTime.Now;
 
-            await ValueTask.Delay(TimeSpan.FromMilliseconds(1000));
+            await ValueTaskEx.Delay(TimeSpan.FromMilliseconds(1000));
 
             var end = DateTime.Now;
 
@@ -86,7 +86,7 @@ namespace System.Threading.Tasks
         {
             var cts = new CancellationTokenSource();
 
-            var task = ValueTask.Delay(1000, cts.Token);
+            var task = ValueTaskEx.Delay(1000, cts.Token);
             Assert.IsFalse(task.IsCompleted);
 
             cts.Cancel();
@@ -101,7 +101,7 @@ namespace System.Threading.Tasks
         {
             var cts = new CancellationTokenSource();
 
-            var task = ValueTask.Delay(TimeSpan.FromMilliseconds(1000), cts.Token);
+            var task = ValueTaskEx.Delay(TimeSpan.FromMilliseconds(1000), cts.Token);
             Assert.IsFalse(task.IsCompleted);
 
             cts.Cancel();
@@ -121,7 +121,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAll(args);
+            var task = ValueTaskEx.WhenAll(args);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -147,7 +147,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAll(args);
+            var task = ValueTaskEx.WhenAll(args);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -172,7 +172,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAll(args);
+            var task = ValueTaskEx.WhenAll(args);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -198,7 +198,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAll(enumerable);
+            var task = ValueTaskEx.WhenAll(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -224,7 +224,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAll(enumerable);
+            var task = ValueTaskEx.WhenAll(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -249,7 +249,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAll(enumerable);
+            var task = ValueTaskEx.WhenAll(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -277,7 +277,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(args);
+            var task = ValueTaskEx.WhenAny(args);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -301,7 +301,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(args);
+            var task = ValueTaskEx.WhenAny(args);
             Assert.IsFalse(task.IsCompleted);
 
             tcs2.SetResult(456);
@@ -325,7 +325,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(args);
+            var task = ValueTaskEx.WhenAny(args);
             Assert.IsFalse(task.IsCompleted);
 
             var ex = new InvalidOperationException();
@@ -348,7 +348,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             var args = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(args);
+            var task = ValueTaskEx.WhenAny(args);
             Assert.IsFalse(task.IsCompleted);
 
             var ex = new InvalidOperationException();
@@ -371,7 +371,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(enumerable);
+            var task = ValueTaskEx.WhenAny(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             tcs1.SetResult(123);
@@ -395,7 +395,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(enumerable);
+            var task = ValueTaskEx.WhenAny(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             tcs2.SetResult(456);
@@ -419,7 +419,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(enumerable);
+            var task = ValueTaskEx.WhenAny(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             var ex = new InvalidOperationException();
@@ -442,7 +442,7 @@ namespace System.Threading.Tasks
             var tcs3 = new TaskCompletionSource<int>();
 
             IEnumerable<ValueTask<int>> enumerable = new[] { tcs1.Task.AsValueTask(), tcs2.Task.AsValueTask(), tcs3.Task.AsValueTask() };
-            var task = ValueTask.WhenAny(enumerable);
+            var task = ValueTaskEx.WhenAny(enumerable);
             Assert.IsFalse(task.IsCompleted);
 
             var ex = new InvalidOperationException();

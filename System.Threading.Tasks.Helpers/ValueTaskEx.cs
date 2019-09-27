@@ -20,7 +20,7 @@ using System.Runtime.CompilerServices;
 namespace System.Threading.Tasks
 {
 #if !NET40
-    public static class ValueTask
+    public static class ValueTaskEx
     {
         public static ValueTask<Unit> CompletedTask
         {

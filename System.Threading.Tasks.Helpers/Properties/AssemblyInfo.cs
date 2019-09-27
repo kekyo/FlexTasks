@@ -30,3 +30,7 @@ using System.Runtime.CompilerServices;
 #if NETSTANDARD2_0
 [assembly: InternalsVisibleTo("System.Threading.Tasks.Helpers.Tests.netcoreapp2.0")]
 #endif
+
+#if NETSTANDARD2_1
+[assembly: InternalsVisibleTo("System.Threading.Tasks.Helpers.Tests.netcoreapp3.0")]
+#endif

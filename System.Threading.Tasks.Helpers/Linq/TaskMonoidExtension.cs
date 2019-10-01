@@ -226,6 +226,19 @@ namespace System.Threading.Tasks.Linq
             return et;
         }
 
+#if NET461 || NETSTANDARD2_0 || NETSTANDARD2_1
+        public static async Task<IEnumerable<T>> AsTask<T>(this IAsyncEnumerable<T> asyncEnumerable)
+        {
+            // TODO:
+            var list = new List<T>();
+            await foreach (var value in asyncEnumerable.ConfigureAwait(false))
+            {
+                list.Add(value);
+            }
+            return list;
+        }
+#endif
+
         //////////////////////////////////////////////////////////////////
 
 #if NET461 || NETSTANDARD2_0 || NETSTANDARD2_1
@@ -257,5 +270,221 @@ namespace System.Threading.Tasks.Linq
 
         public static IEnumerable<Task<U>> Select<T, U>(this IEnumerable<Task<T>> tasks, Func<T, Task<U>> mapper) =>
             tasks.Select(async task => await mapper(await task));
+
+        //////////////////////////////////////////////////////////////////
+
+#if NET461 || NETSTANDARD2_0 || NETSTANDARD2_1
+        public static async IAsyncEnumerable<V> Zip<T, U, V>(
+            this IAsyncEnumerable<T> asyncEnumerable0, IEnumerable<U> enumerable1, Func<T, U, V> selector)
+        {
+            var ae0 = asyncEnumerable0.GetAsyncEnumerator();
+            try
+            {
+                var e1 = enumerable1.GetEnumerator();
+                try
+                {
+                    while (await ae0.MoveNextAsync().ConfigureAwait(false) &&
+                        e1.MoveNext())
+                    {
+                        yield return selector(ae0.Current, e1.Current);
+                    }
+                }
+                finally
+                {
+                    if (e1 is IDisposable d1)
+                    {
+                        d1.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (ae0 is IAsyncDisposable ad0)
+                {
+                    await ad0.DisposeAsync();
+                }
+            }
+        }
+
+        public static async IAsyncEnumerable<V> Zip<T, U, V>(
+            this IEnumerable<T> enumerable0, IAsyncEnumerable<U> asyncEnumerable1, Func<T, U, V> selector)
+        {
+            // HACK: e0 can't await, so replaced first MoveNext order.
+            var ae1 = asyncEnumerable1.GetAsyncEnumerator();
+            try
+            {
+                if (await ae1.MoveNextAsync().ConfigureAwait(false))
+                {
+                    // Will block GetEnumerator()
+                    var e0 = enumerable0.GetEnumerator();
+                    try
+                    {
+                        if (e0.MoveNext())
+                        {
+                            yield return selector(e0.Current, ae1.Current);
+
+                            while (await ae1.MoveNextAsync().ConfigureAwait(false) &&
+                                e0.MoveNext())
+                            {
+                                yield return selector(e0.Current, ae1.Current);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (e0 is IDisposable d0)
+                        {
+                            d0.Dispose();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (ae1 is IAsyncDisposable ad1)
+                {
+                    await ad1.DisposeAsync();
+                }
+            }
+        }
+
+        public static async IAsyncEnumerable<V> Zip<T, U, V>(
+            this IAsyncEnumerable<T> asyncEnumerable0, IAsyncEnumerable<U> asyncEnumerable1, Func<T, U, V> selector)
+        {
+            var ae0 = asyncEnumerable0.GetAsyncEnumerator();
+            try
+            {
+                var ae1 = asyncEnumerable1.GetAsyncEnumerator();
+                try
+                {
+                    while (await ae0.MoveNextAsync().ConfigureAwait(false) &&
+                        await ae1.MoveNextAsync())
+                    {
+                        yield return selector(ae0.Current, ae1.Current);
+                    }
+                }
+                finally
+                {
+                    if (ae1 is IAsyncDisposable ad1)
+                    {
+                        await ad1.DisposeAsync();
+                    }
+                }
+            }
+            finally
+            {
+                if (ae0 is IAsyncDisposable ad0)
+                {
+                    await ad0.DisposeAsync();
+                }
+            }
+        }
+
+        public static async IAsyncEnumerable<V> Zip<T, U, V>(
+            this IAsyncEnumerable<T> asyncEnumerable0, IEnumerable<U> enumerable1, Func<T, U, Task<V>> selector)
+        {
+            var ae0 = asyncEnumerable0.GetAsyncEnumerator();
+            try
+            {
+                var e1 = enumerable1.GetEnumerator();
+                try
+                {
+                    while (await ae0.MoveNextAsync().ConfigureAwait(false) &&
+                        e1.MoveNext())
+                    {
+                        yield return await selector(ae0.Current, e1.Current);
+                    }
+                }
+                finally
+                {
+                    if (e1 is IDisposable d1)
+                    {
+                        d1.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (ae0 is IAsyncDisposable ad0)
+                {
+                    await ad0.DisposeAsync();
+                }
+            }
+        }
+
+        public static async IAsyncEnumerable<V> Zip<T, U, V>(
+            this IEnumerable<T> enumerable0, IAsyncEnumerable<U> asyncEnumerable1, Func<T, U, Task<V>> selector)
+        {
+            // HACK: e0 can't await, so replaced first MoveNext order.
+            var ae1 = asyncEnumerable1.GetAsyncEnumerator();
+            try
+            {
+                if (await ae1.MoveNextAsync().ConfigureAwait(false))
+                {
+                    // Will block GetEnumerator()
+                    var e0 = enumerable0.GetEnumerator();
+                    try
+                    {
+                        if (e0.MoveNext())
+                        {
+                            yield return await selector(e0.Current, ae1.Current);
+
+                            while (await ae1.MoveNextAsync().ConfigureAwait(false) &&
+                                e0.MoveNext())
+                            {
+                                yield return await selector(e0.Current, ae1.Current);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (e0 is IDisposable d0)
+                        {
+                            d0.Dispose();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (ae1 is IAsyncDisposable ad1)
+                {
+                    await ad1.DisposeAsync();
+                }
+            }
+        }
+
+        public static async IAsyncEnumerable<V> Zip<T, U, V>(
+            this IAsyncEnumerable<T> asyncEnumerable0, IAsyncEnumerable<U> asyncEnumerable1, Func<T, U, Task<V>> selector)
+        {
+            var ae0 = asyncEnumerable0.GetAsyncEnumerator();
+            try
+            {
+                var ae1 = asyncEnumerable1.GetAsyncEnumerator();
+                try
+                {
+                    while (await ae0.MoveNextAsync().ConfigureAwait(false) &&
+                        await ae1.MoveNextAsync())
+                    {
+                        yield return await selector(ae0.Current, ae1.Current);
+                    }
+                }
+                finally
+                {
+                    if (ae1 is IAsyncDisposable ad1)
+                    {
+                        await ad1.DisposeAsync();
+                    }
+                }
+            }
+            finally
+            {
+                if (ae0 is IAsyncDisposable ad0)
+                {
+                    await ad0.DisposeAsync();
+                }
+            }
+        }
+#endif
     }
 }

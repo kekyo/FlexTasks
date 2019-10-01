@@ -468,10 +468,9 @@ namespace System.Threading.Tasks.Linq
             var rst = FromResult(numbers).
                 AsAsyncEnumerable();
 
-            foreach (var entry in rst.Zip(numbers, (tr, e) => Tuple.Create(tr, e)))
+            await foreach (var entry in rst.Zip(numbers, (tr, e) => Tuple.Create(tr, e)))
             {
-                var r = await entry.Item1;
-                Assert.AreEqual(entry.Item2, r);
+                Assert.AreEqual(entry.Item2, entry.Item1);
             }
         }
 
@@ -480,13 +479,12 @@ namespace System.Threading.Tasks.Linq
         {
             var numbers = new[] { 123, 456, 789 };
             var rst = FromResult(numbers).
-                Select(v => Task.FromResult(v)).
+                Select(v => Task.FromResult(v.AsEnumerable())).
                 AsAsyncEnumerable();
 
-            await foreach (var entry in numbers)
+            await foreach (var entry in rst.Zip(numbers, (tr, e) => Tuple.Create(tr, e)))
             {
-                var r = await entry.Item1;
-                Assert.AreEqual(entry.Item2, r);
+                Assert.AreEqual(entry.Item2, entry.Item1);
             }
         }
 #endif
